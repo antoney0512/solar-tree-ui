@@ -425,3 +425,136 @@
     text-align: center;
   }
 }
+.chartPage {
+  background:
+    radial-gradient(circle at top right, rgba(76, 201, 240, 0.12), transparent 38%),
+    rgba(255, 255, 255, 0.055);
+}
+
+.chartSummary {
+  margin: 32px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.chartSummary div {
+  padding: 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.chartSummary strong {
+  display: block;
+  font-size: 28px;
+  color: #ffd166;
+  margin-bottom: 8px;
+}
+
+.chartSummary span {
+  color: #d8e8f6;
+}
+
+.chartGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+  margin-top: 34px;
+}
+
+.chartCard {
+  padding: 26px;
+  border-radius: 28px;
+  background: rgba(5, 15, 28, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
+.chartCardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.chartCardHeader h3 {
+  margin: 10px 0 0;
+  color: #eef7ff;
+  font-size: 24px;
+}
+
+.chartCardHeader p {
+  margin: 0;
+  color: #b8c8d9;
+  font-size: 15px;
+  text-align: right;
+}
+
+.chartTag {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(76, 201, 240, 0.14);
+  color: #4cc9f0;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.chartImage {
+  width: 100%;
+  display: block;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.chartInfo {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 14px;
+}
+
+.chartInfo div {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.chartInfo span {
+  display: block;
+  color: #b8c8d9;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.chartInfo strong {
+  color: #ffd166;
+  line-height: 1.6;
+}
+
+.chartDescription {
+  margin-top: 18px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #d8e8f6;
+}
+
+@media (max-width: 900px) {
+  .chartSummary,
+  .chartGrid,
+  .chartInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .chartCardHeader {
+    flex-direction: column;
+  }
+
+  .chartCardHeader p {
+    text-align: left;
+  }
+}

@@ -5,6 +5,7 @@ const pages = [
   { id: "home", label: "首頁" },
   { id: "system", label: "系統架構" },
   { id: "simulation", label: "模擬分析" },
+  { id: "charts", label: "圖表數據" },
   { id: "experiment", label: "實體驗證" },
   { id: "result", label: "成果討論" },
   { id: "future", label: "未來展望" },
@@ -34,6 +35,7 @@ export default function App() {
       {activePage === "home" && <HomePage setActivePage={setActivePage} />}
       {activePage === "system" && <SystemPage />}
       {activePage === "simulation" && <SimulationPage />}
+      {activePage === "charts" && <ChartDataPage />}
       {activePage === "experiment" && <ExperimentPage />}
       {activePage === "result" && <ResultPage />}
       {activePage === "future" && <FuturePage />}
@@ -52,6 +54,7 @@ function HomePage({ setActivePage }) {
       <section className="hero">
         <div className="heroContent">
           <p className="tag">Green Energy × Thermoelectric Cooling</p>
+
           <h1>自發電太陽樹熱交換風道降溫系統展示平台</h1>
 
           <p className="subtitle">
@@ -89,17 +92,40 @@ function HomePage({ setActivePage }) {
       <section className="section">
         <p className="sectionTag">Platform Guide</p>
         <h2>平台導覽</h2>
+
         <p>
           首頁僅呈現專題核心成果與快速導覽。若要查看細節，可依照研究流程切換至不同分頁：
-          系統架構說明硬體組成，模擬分析呈現 COMSOL 建模與散熱片參數分析，實體驗證說明裝置製作與量測方法，
+          系統架構說明硬體組成，模擬分析呈現 COMSOL 建模與散熱片參數分析，
+          圖表數據整理預測模型，實體驗證說明裝置製作與量測方法，
           成果討論則整理實測數據、熱損失與系統限制。
         </p>
 
         <div className="homeGuide">
-          <GuideCard title="系統架構" text="了解太陽能板、熱電晶片、風道、散熱片與風扇的整合方式。" onClick={() => setActivePage("system")} />
-          <GuideCard title="模擬分析" text="查看 COMSOL 建模流程、邊界條件、網格測試與散熱片片數分析。" onClick={() => setActivePage("simulation")} />
-          <GuideCard title="實體驗證" text="查看縮小型風道裝置、DHT22 感測器與實驗量測流程。" onClick={() => setActivePage("experiment")} />
-          <GuideCard title="成果討論" text="查看入口、出口、冷端、熱端溫度與熱損失分析。" onClick={() => setActivePage("result")} />
+          <GuideCard
+            title="系統架構"
+            text="了解太陽能板、熱電晶片、風道、散熱片與風扇的整合方式。"
+            onClick={() => setActivePage("system")}
+          />
+          <GuideCard
+            title="模擬分析"
+            text="查看 COMSOL 建模流程、邊界條件、網格測試與散熱片片數分析。"
+            onClick={() => setActivePage("simulation")}
+          />
+          <GuideCard
+            title="圖表數據"
+            text="查看散熱片片數、Delta T、出口溫度與 17～20 片預測區間。"
+            onClick={() => setActivePage("charts")}
+          />
+          <GuideCard
+            title="實體驗證"
+            text="查看縮小型風道裝置、DHT22 感測器與實驗量測流程。"
+            onClick={() => setActivePage("experiment")}
+          />
+          <GuideCard
+            title="成果討論"
+            text="查看入口、出口、冷端、熱端溫度與熱損失分析。"
+            onClick={() => setActivePage("result")}
+          />
         </div>
       </section>
     </>
@@ -119,13 +145,29 @@ function SystemPage() {
       </p>
 
       <div className="systemDiagram">
-        <div className="diagramBlock solar">太陽能板<br />能源來源</div>
+        <div className="diagramBlock solar">
+          太陽能板
+          <br />
+          能源來源
+        </div>
         <div className="diagramArrow">→</div>
-        <div className="diagramBlock chip">熱電致冷晶片<br />冷熱分離</div>
+        <div className="diagramBlock chip">
+          熱電致冷晶片
+          <br />
+          冷熱分離
+        </div>
         <div className="diagramArrow">→</div>
-        <div className="diagramBlock duct">風道結構<br />冷空氣導流</div>
+        <div className="diagramBlock duct">
+          風道結構
+          <br />
+          冷空氣導流
+        </div>
         <div className="diagramArrow">→</div>
-        <div className="diagramBlock output">出口降溫<br />局部冷卻</div>
+        <div className="diagramBlock output">
+          出口降溫
+          <br />
+          局部冷卻
+        </div>
       </div>
 
       <div className="grid">
@@ -161,7 +203,8 @@ function SimulationPage() {
       <h2>COMSOL 熱流模擬分析</h2>
 
       <p>
-        本頁專注於模擬分析。研究使用 COMSOL 建立風道與散熱片模型，透過非等溫流耦合分析空氣流動與溫度場變化。
+        本頁專注於模擬分析。研究使用 COMSOL 建立風道與散熱片模型，
+        透過非等溫流耦合分析空氣流動與溫度場變化。
         模擬目的不是取代實驗，而是在實體製作前先判斷散熱片片數與出口溫度之間的趨勢。
       </p>
 
@@ -208,6 +251,94 @@ function SimulationPage() {
         <strong>模擬結論：</strong>
         散熱片片數增加時，出口溫度呈現下降趨勢；但實際設計仍需考量風阻、安裝空間與加工可行性，
         因此最終選用 19 片作為實體設計依據。
+      </div>
+    </section>
+  );
+}
+
+function ChartDataPage() {
+  const chartData = [
+    {
+      title: "高溫條件 Delta T 預測",
+      condition: "室溫 40°C，冷端 30°C",
+      img: "/charts/deltaT_40_30.png",
+      tag: "Delta T",
+      points: "Nf = 10～20",
+      result: "降溫幅度約 4.1～6.5°C",
+      description:
+        "此圖以散熱片片數 Nf 為變因，觀察高溫條件下的 Delta T 變化。結果顯示，隨著散熱片片數增加，降溫幅度逐漸提升，但在 17～20 片後趨於平緩，代表片數增加的效益開始遞減。",
+    },
+    {
+      title: "室溫條件 Delta T 預測",
+      condition: "室溫 25°C，冷端 15°C",
+      img: "/charts/deltaT_25_15.png",
+      tag: "Delta T",
+      points: "Nf = 10～20",
+      result: "降溫幅度約 2.1～3.2°C",
+      description:
+        "此圖呈現室溫條件下的 Delta T 變化。相較於高溫條件，室溫條件下的降溫幅度較小，但仍可看出散熱片片數增加會提升降溫效果，並在 18～19 片附近接近最佳區間。",
+    },
+    {
+      title: "室溫條件出口溫度預測",
+      condition: "室溫 25°C，冷端 15°C",
+      img: "/charts/tout_25_15.png",
+      tag: "Tout",
+      points: "Nf = 10～20",
+      result: "出口溫度約由 20.9°C 降至 18.6°C",
+      description:
+        "此圖直接呈現出口溫度 Tout 與散熱片片數之關係。當散熱片片數增加時，出口溫度下降，約在 18～19 片附近達到較低溫度。此結果可作為本研究選用 19 片散熱片的依據之一。",
+    },
+    {
+      title: "高溫條件出口溫度預測",
+      condition: "室溫 40°C，冷端 30°C",
+      img: "/charts/tout_40_30.png",
+      tag: "Tout",
+      points: "Nf = 10～20",
+      result: "出口溫度約由 37.9°C 降至 36.8°C",
+      description:
+        "此圖呈現高溫條件下的出口溫度預測。可以看出散熱片片數增加後，出口溫度逐漸下降；但 17～20 片之間的下降幅度趨緩，表示散熱片片數並非越多越有效，仍需考量風阻與實體配置限制。",
+    },
+  ];
+
+  return (
+    <section className="section pageSection chartPage">
+      <p className="sectionTag">Chart Data</p>
+      <h2>圖表數據與預測模型</h2>
+
+      <p>
+        本頁整理散熱片片數 Nf 與降溫效果之關係，包含 Delta T 預測圖與出口溫度 Tout 預測圖。
+        圖中藍色圓點為原始模擬資料，藍色曲線為二次回歸模型，橘色叉號為 17～20 片散熱片的預測區間。
+      </p>
+
+      <div className="chartSummary">
+        <div>
+          <strong>10～16 片</strong>
+          <span>原始模擬數據</span>
+        </div>
+        <div>
+          <strong>17～20 片</strong>
+          <span>模型預測區間</span>
+        </div>
+        <div>
+          <strong>19 片</strong>
+          <span>實體設計採用片數</span>
+        </div>
+        <div>
+          <strong>二次回歸</strong>
+          <span>預測出口溫度趨勢</span>
+        </div>
+      </div>
+
+      <div className="chartGrid">
+        {chartData.map((chart) => (
+          <ChartCard key={chart.title} chart={chart} />
+        ))}
+      </div>
+
+      <div className="notice">
+        <strong>圖表結論：</strong>
+        散熱片片數增加可提升降溫效果，但在 17～20 片區間後改善幅度逐漸變小。
+        因此本研究選用 19 片散熱片，作為降溫效果與實體配置可行性之間的折衷設計。
       </div>
     </section>
   );
@@ -382,6 +513,35 @@ function Step({ title, text }) {
       <h3>{title}</h3>
       <p>{text}</p>
     </div>
+  );
+}
+
+function ChartCard({ chart }) {
+  return (
+    <article className="chartCard">
+      <div className="chartCardHeader">
+        <div>
+          <span className="chartTag">{chart.tag}</span>
+          <h3>{chart.title}</h3>
+        </div>
+        <p>{chart.condition}</p>
+      </div>
+
+      <img className="chartImage" src={chart.img} alt={chart.title} />
+
+      <div className="chartInfo">
+        <div>
+          <span>分析範圍</span>
+          <strong>{chart.points}</strong>
+        </div>
+        <div>
+          <span>主要結果</span>
+          <strong>{chart.result}</strong>
+        </div>
+      </div>
+
+      <p className="chartDescription">{chart.description}</p>
+    </article>
   );
 }
 
